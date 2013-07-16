@@ -2,40 +2,44 @@
 
 /* Controllers */
 
-angular.module('Imagg', ['ngResource']); 
+angular.module('Imagg', ['ngResource', 'infinite-scroll']); 
 
 function redditCtrl($scope, $http) {
-
-    function getPics(source) {
-        var reddit = $http.jsonp('http://reddit.com/r/' + source + '.json?jsonp=JSON_CALLBACK');
-        reddit.success(function(result) {
-            var imgData = result.data.children;
-            $scope.pics = [[], [], []];
+    $scope.pics = [[], [], []];
+    $scope.busy = false;
+    $scope.after = '';
+    $scope.source = 'pics';
+    $scope.loadMore = function() {
+        if ($scope.busy) return;
+        $scope.busy = true;
+        var url =  "http://api.reddit.com/r/" + $scope.source + "?after=" + $scope.after + "&jsonp=JSON_CALLBACK";
+        $http.jsonp(url).success(function(data) {
+            var items = data.data.children;
             var j = 0;
-            for (var i = 0; i < imgData.length; i++) {
-                var regex = /imgur.*\/(.*).jpg$/;
-                var match = regex.exec(imgData[i].data.url);
-                if (match){
-                    var title = imgData[i].data.title;
-                    var comments = 'http://reddit.com' + imgData[i].data.permalink;
+            var last = '';
+            var regex = /imgur.*\/(.*).jpg$/;
+            for (var i = 0; i < items.length; i++) {
+                var match = regex.exec(items[i].data.url);
+                if (match) {
                     var urlpre = "http://i.imgur.com/" + match[1] + 'l.jpg';
-                    var urlsrc = "http://i.imgur.com/" + match[1] + '.jpg';
-                    $scope.pics[(j+3)%3].push({urlpre: urlpre, 
-                        urlsrc: urlsrc, 
-                        title: title,
-                        comments: comments
-                    });
+                    items[i].data.urlpre = urlpre;
+                    items[i].data.comments = 'http://reddit.com' + items[i].data.permalink;
+                    $scope.pics[j%3].push(items[i].data);
+                    last = items[i].data;
                     j++;
                 }
             }
+            $scope.after = "t3_" + last.id;
+            $scope.busy = false;
         });
-    }
-    getPics('pics');
-
+    };
+    $scope.loadMore();
 
     $scope.changeSubreddit = function(){
-        console.log("here");
-        getPics($scope.subreddit);
+        $scope.pics = [[], [], []];
+        $scope.after = '';
+        $scope.source = $scope.subreddit;
+        $scope.loadMore();
     }
 
 }
