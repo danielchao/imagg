@@ -1,38 +1,51 @@
 <!doctype html>
-<html lang="en" ng-app="myApp">
-<head>
-  <meta charset="utf-8">
-  <title>My AngularJS App</title>
-  <link rel="stylesheet" href="css/app.css"/>
-  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-  <script src="lib/angular/angular.js"></script>
-  <script src="lib/angular/angular-resource.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/directives.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-</head>
-<body>
-
-
-  <div ng-controller="TwitterCtrl">
-        <form class="form-horizontal">
-            <input type=texte" ng-model="searchTerm"/>
-            <button class="btn" ng-click="doSearch()"><i class="icon-search"></i>Search</button>
-        </form>
-        <table class="table table-striped">
-          <tr ng-repeat="red in redditResult.data.children">
-              <td>{{red.data.title}}</td>
-              <td><a href="{{red.data.url}}">{{red.data.url}}</a></td>
-          </tr>
-        </table>
-  </div>
-
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-  -->
-</body>
+<html lang="en" ng-app="Imagg">
+    <head>
+        <meta charset="utf-8">
+        <title>Imagg</title>
+        <link rel="stylesheet" href="css/app.css"/>
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-resource.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+          <!-- In production use:
+          <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+          -->
+    </head>
+    <body>
+        <div class="container" ng-controller="redditCtrl">
+            <ul class="nav">
+                <form class="form-horizontal">
+                    <input type="text" ng-model="subreddit" placeholder="Input subreddit name"/>
+                    <button ng-click="changeSubreddit()" class="btn">Choose</button>
+                </form>
+            </ul>
+            <div class="row">
+                <div class="span4">
+                    <span class="img-container" ng-repeat="red in pics[0]">
+                        <a href="{{red.urlsrc}}"><img ng-src="{{red.urlpre}}"></img></a>
+                        <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
+                    </span>
+                </div>
+                <div class="span4">
+                    <span class="img-container" ng-repeat="red in pics[1]">
+                        <a href="{{red.urlsrc}}"><img ng-src="{{red.urlpre}}"></img></a>
+                        <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
+                    </span>
+                </div>
+                <div class="span4">
+                    <span class="img-container" ng-repeat="red in pics[2]">
+                        <a href="{{red.urlsrc}}"><img ng-src="{{red.urlpre}}"></img></a>
+                        <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
