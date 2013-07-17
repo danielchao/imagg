@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <title>Imagg</title>
-        <link rel="stylesheet" href="css/app.css"/>
         <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/app.css"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
         <script src="lib/angular/angular.js"></script>
@@ -20,35 +20,6 @@
           -->
     </head>
     <body>
-        <div ng-controller="redditCtrl">
-            <div class="container" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-                <ul class="nav">
-                    <form class="form-horizontal">
-                        <input type="text" ng-model="subreddit" placeholder="Input subreddit name"/>
-                        <button ng-click="changeSubreddit()" class="btn">Choose</button>
-                    </form>
-                </ul>
-                <div class="row">
-                    <div class="span4">
-                        <span class="img-container" ng-repeat="red in pics[0]">
-                            <a href="{{red.url}}"><img ng-src="{{red.urlpre}}"></img></a>
-                            <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
-                        </span>
-                    </div>
-                    <div class="span4">
-                        <span class="img-container" ng-repeat="red in pics[1]">
-                            <a href="{{red.url}}"><img ng-src="{{red.urlpre}}"></img></a>
-                            <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
-                        </span>
-                    </div>
-                    <div class="span4">
-                        <span class="img-container" ng-repeat="red in pics[2]">
-                            <a href="{{red.url}}"><img ng-src="{{red.urlpre}}"></img></a>
-                            <p><a class="comments" href="{{red.comments}}">{{red.title}}</a></p>
-                        </span>
-                    </div>
-                </div> <!--end row-->
-            </div> <!--end container-->
-        </div> <!--end controller-->
+        <div ng-view></div>
     </body>
 </html>

@@ -2,8 +2,10 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('Imagg', ['Imagg.filters', 'Imagg.services', 'Imagg.directives', 'Imagg.controllers']).
+var module = angular.module('Imagg', ['infinite-scroll']).
   config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/', {templateUrl: 'partials/images.html', controller: 'dummy'});
-    $routeProvider.otherwise({redirectTo: '/'});
-  }]);
+  $routeProvider.
+      when('/', {templateUrl: 'partials/images.html',   controller: redditCtrl}).
+      when('/:subreddit', {templateUrl: 'partials/images.html', controller: redditCtrl}).
+      otherwise({redirectTo: '/'});
+    }]);

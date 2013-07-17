@@ -2,9 +2,16 @@
 
 /* Directives */
 
-angular.module('Imagg.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]);
+module.directive('hovershow', function() {
+        return {
+            link : function(scope, element, attrs) {
+                element.bind('mouseenter', function() {
+                    element.next().fadeIn();
+                });
+                element.bind('mouseleave', function() {
+                    element.next().fadeOut();
+                });
+            }
+        };
+    }
+);

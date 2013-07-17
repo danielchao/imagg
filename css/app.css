@@ -1,18 +1,51 @@
 /* app css stylesheet */
+body {
+    background-color: #F0F0F0;
+}
+.btn {
+    border-radius: 20px;
+}
+.info {
+    top: 0px;
+    left: 0px;
+    text-align: left;
+    position: absolute;
+    color: white;
+    opacity: 0.5;
+    display: none;
+    /*height: 20%;*/
+    width: 100%;
+    background-color: black;
+}
 
 img {
     margin-top: 3%; 
-    float: left;
 }
 
 .img-container {
-    padding: 10px;
+    position: relative; 
+    background-color: white;
+    padding: 8px;
     float: left;
-    margin-bottom: 2%;
-    box-shadow: 5px 5px 5px 3px #888888;
+    margin-bottom: 4%;
+    box-shadow: 3px 3px 3px 3px #888888;
     text-align: center
-}
+} 
 
+p {
+    margin: 5px;
+    font-family: lucida console;
+}
 .comments {
     color: black;
 }
+
+.animate-enter {
+	-webkit-transition: 3s linear all; /* Chrome */
+	transition: 1s linear all;
+	opacity: 0;
+}
+.animate-enter.animate-enter-active {
+	opacity: 1;
+}
+
