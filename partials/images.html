@@ -1,0 +1,44 @@
+<div ng-controller="redditCtrl">
+    <div class='navbar'>
+        <div class="navbar-inner">
+            <form class="navbar-form">
+                <input type="text" ng-model="subreddit" placeholder="Input subreddit name"/>
+                <a href="#/{{subreddit}}"><button class="btn">Choose</button></a>
+            </form>
+        </div>
+    </div>
+    <div class="container" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="2">
+        <div class="row">
+            <div class="span4">
+                <span class="img-container" ng-repeat="red in pics[0]" ng-animate="'animate'" >
+                    <a ng-href="{{red.url}}" hovershow><img ng-src="{{red.urlpre}}"></img></a>
+                    <div class="info">
+                        <p>Title: {{red.title}}</p>
+                        <p>Comments: {{red.num_comments}}</p>
+                    </div>
+                    <!--<p><a class="comments" ng-href="{{red.comments}}">{{red.title}}</a></p>-->
+                </span>
+            </div>
+            <div class="span4">
+                <span class="img-container" ng-repeat="red in pics[1]" ng-animate="'animate'" >
+                    <a ng-href="{{red.url}}" hovershow><img ng-src="{{red.urlpre}}"></img></a>
+                    <div class="info">
+                        <p>Title: {{red.title}}</p>
+                        <p>Comments: {{red.num_comments}}</p>
+                    </div>
+                    <!--<p><a class="comments" ng-href="{{red.comments}}">{{red.title}}</a></p>-->
+                </span>
+            </div>
+            <div class="span4">
+                <span class="img-container" ng-repeat="red in pics[2]" ng-animate="'animate'" >
+                    <a ng-href="{{red.url}}" hovershow><img ng-src="{{red.urlpre}}"></img></a>
+                    <div class="info">
+                        <p>Title: {{red.title}}</p>
+                        <p>Comments: {{red.num_comments}}</p>
+                    </div>
+                    <!--<p><a class="comments" ng-href="{{red.comments}}">{{red.title}}</a></p>-->
+                </span>
+            </div>
+        </div> 
+    </div> 
+</div> 
