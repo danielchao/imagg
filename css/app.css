@@ -2,39 +2,65 @@
 body {
     background-color: #F0F0F0;
 }
+#title {
+    margin: 0px;
+}
 .btn {
     border-radius: 20px;
 }
+#preview {
+    text-align: center;
+    position: fixed;
+    display: none;
+    left: 0;
+    right: 0;
+    max-width: 70%;
+    width: auto;
+    margin: 0 auto;
+    z-index: 9999;
+    background-color: transparent;
+}
+#preview img{
+    margin: 0;
+    padding: 10px;
+    background-color: black;
+}
+
 .info {
     top: 0px;
     left: 0px;
     text-align: left;
     position: absolute;
     color: white;
-    opacity: 0.5;
+    opacity: 0.8;
     display: none;
-    /*height: 20%;*/
     width: 100%;
     background-color: black;
 }
-
-img {
-    margin-top: 3%; 
+.info a{
+    color: white;
 }
-
+.info p {
+    margin: 5px;
+    font-family: helvetica;
+}
+.bold {
+    font-weight: bold;
+}
 .img-container {
     position: relative; 
     background-color: white;
-    padding: 8px;
+    padding: 5px;
     float: left;
     margin-bottom: 4%;
     box-shadow: 3px 3px 3px 3px #888888;
     text-align: center
 } 
-
-p {
-    margin: 5px;
-    font-family: lucida console;
+.img-container img{
+    cursor: pointer;
+}
+p .brand {
+    padding: 0px;
 }
 .comments {
     color: black;
@@ -48,4 +74,3 @@ p {
 .animate-enter.animate-enter-active {
 	opacity: 1;
 }
-
