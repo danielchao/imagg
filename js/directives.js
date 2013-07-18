@@ -21,27 +21,13 @@ app.directive('clickpreview', function() {
         restrict: 'A',
         link : function(scope, element, attrs) {
             element.bind('click', function() {
-                var prev = $('#preview');
-                if (prev.html() == "") {
-                    prev.html("<img src='" + attrs.alt + "'></img>");
-                    prev.fadeToggle();
-                    $('#preview img').css('max-height', $(window).height() * 0.8);
-                    prev.modal('toggle');
-                }
+                var img = $('#preview');
+                console.log('here');
+                img.attr('src', attrs.alt);
+                img.css('max-height', $(window).height() * 0.8);
+                img.modal('toggle');
             });
         }
     };
 });
-app.directive('exitonclick', function() {
-    return {
-        restrict: 'A',
-        link : function(scope, element, attrs) {
-            element.bind('click', function() {
-                var prev = $('#preview');
-                prev.fadeToggle();
-                prev.html("");
-                prev.modal('toggle');
-            });
-        }
-    };
-});
+

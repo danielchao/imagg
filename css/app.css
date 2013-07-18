@@ -8,20 +8,12 @@ body {
 .btn {
     border-radius: 20px;
 }
-#preview {
-    text-align: center;
-    position: fixed;
-    display: none;
+
+#preview{
     left: 0;
     right: 0;
-    max-width: 70%;
     width: auto;
     margin: 0 auto;
-    z-index: 9999;
-    background-color: transparent;
-}
-#preview img{
-    margin: 0;
     padding: 10px;
     background-color: black;
 }
