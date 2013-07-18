@@ -8,16 +8,15 @@ body {
 .btn {
     border-radius: 20px;
 }
-
 #preview{
     left: 0;
     right: 0;
     width: auto;
     margin: 0 auto;
+    max-width: 80%;
     padding: 10px;
     background-color: black;
 }
-
 .info {
     top: 0px;
     left: 0px;
@@ -57,7 +56,6 @@ p .brand {
 .comments {
     color: black;
 }
-
 .animate-enter {
 	-webkit-transition: 3s linear all; /* Chrome */
 	transition: 1s linear all;

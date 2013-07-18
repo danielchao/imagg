@@ -3,18 +3,23 @@
 /* Controllers */
 
 app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
+    //Container for all displayed images, each array representing one column 
     $scope.pics = [[], [], []];
+    //Prevent mutliple loads from triggering at once
     $scope.busy = false;
+    //Reddit post ID to request older content
+    $scope.after = '';
+
+    //Pick subreddit
     if ($routeParams.subreddit) {
         $scope.source = $routeParams.subreddit;
     }else {
+        //Default subreddit is r/pics
         $scope.source = 'pics';
     }
-    var lengths = [0, 0, 0];
-    //var column1 = angular.element('.span4:first-child');
-    //var column2 = angular.element('.span4:nth-child(2)');
-    //var column3 = angular.element('.span4:nth-child(3)');
-    $scope.after = '';
+    //Keep track of column heights for balance
+    var heights = [0, 0, 0];
+
     $scope.loadMore = function() {
         if ($scope.busy) return;
         $scope.busy = true;
@@ -22,21 +27,23 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
         $http.jsonp(url).success(function(data) {
             $scope.after = data.data.after;
             var items = data.data.children;
-            var regex = /imgur.*\/(.*).jpg$/;
             for (var i = 0; i < items.length; i++) {
-                var match = regex.exec(items[i].data.url);
-                if (match) {
-                    var column =  lengths.indexOf(Math.min.apply(Math, lengths));
-                    var urlpre = "http://i.imgur.com/" + match[1] + 'l.jpg';
+                //Make async request to get URL; async required for sites like Flickr
+                getUrl(items[i].data, function(urlpre, urllarge, data) {
+                    var column =  heights.indexOf(Math.min.apply(Math, heights));
+                    //Temporary solution for height imbalance issue
+                    //Probably hinders performance
                     var img = new Image();
                     img.src = urlpre;
                     img.onload = function() {
-                        lengths[column] += this.height/this.width;
+                        heights[column] += this.height/this.width;
                     }
-                    items[i].data.urlpre = urlpre;
-                    items[i].data.comments = 'http://reddit.com' + items[i].data.permalink;
-                    $scope.pics[column].push(items[i].data);
-                }
+                    data.urlpre = urlpre;
+                    console.log(urllarge);
+                    data.urllarge = urllarge;
+                    data.comments = 'http://reddit.com' + data.permalink;
+                    $scope.pics[column].push(data);
+                });
             }
             $scope.busy = false;
         }).
@@ -45,4 +52,38 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
         })
     };
     $scope.loadMore();
+
+
+
+    function getUrl(data, callback) {
+        var flickerApiKey = "df1ff13d7f696d907c3296a5ff656536"; //Please apply for your own key through Flickr :)
+        //Regex for ID extraction
+        var imgmatch = /img.*\/(.*).jpg$/.exec(data.url);
+        var lmematch = /livememe.com\/(.*)/.exec(data.url);
+        var flimatch = /flickr.*\/([0-9]{10})\//.exec(data.url);
+        if (imgmatch) {
+            callback('http://i.imgur.com/' + imgmatch[1] + 'l.jpg', data.url, data);
+        }else if (lmematch) {
+            callback('http://i.lvme.me/' + lmematch[1] + '.jpg', data.url, data);
+        }else if (flimatch) {
+            //Perform asynchronous request to obtain Flickr src image URL
+            $.ajax({
+                type: 'get',
+                url: "http://www.flickr.com/services/rest/",
+                data: {
+                    method: 'flickr.photos.getSizes', 
+                    format: 'json',
+                    api_key: flickerApiKey,
+                    photo_id: flimatch[1], 
+                },
+                dataType: 'jsonp',
+                jsonp: 'jsoncallback',
+                success: function(response) {
+                    if (response.sizes) {
+                        callback(response.sizes.size[5].source, response.sizes.size[8].source, data);
+                    }
+                }
+            });
+        }
+    }
 }); 

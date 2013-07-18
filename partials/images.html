@@ -11,27 +11,27 @@
     <img id='preview' class="modal hide" data-keyboard='false'>
     <div class="container">
         <div class="row">
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="2">
+            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
                 <span class="img-container" ng-repeat="red in pics[0]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.url}}" clickpreview></img>
+                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
                     <div class="info">
                         <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
                         <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
                     </div>
                 </span>
             </div>
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="2">
+            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
                 <span class="img-container" ng-repeat="red in pics[1]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.url}}" clickpreview></img>
+                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
                     <div class="info">
                         <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
                         <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
                     </div>
                 </span>
             </div>
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="2">
+            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
                 <span class="img-container" ng-repeat="red in pics[2]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.url}}" clickpreview></img>
+                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
                     <div class="info">
                         <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
                         <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
