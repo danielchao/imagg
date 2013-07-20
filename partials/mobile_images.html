@@ -1,0 +1,13 @@
+<div ng-include src="'partials/mobile_nav.html'"></div>
+<img id='preview' class="modal hide" data-keyboard='false'>
+<div class="container">
+    <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
+        <span class="img-container" ng-repeat="red in mobilePics" ng-animate="'animate'">
+            <a href="{{red.url}}"><img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}"></img></a>
+            <div class='caption'>
+                <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
+                <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
+            </div>
+        </span>
+    </div> 
+</div> 

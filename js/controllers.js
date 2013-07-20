@@ -5,16 +5,16 @@
 app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
     //Container for all displayed images, each array representing one column 
     $scope.pics = [[], [], []];
+    $scope.mobilePics = [];
     //Prevent mutliple loads from triggering at once
     $scope.busy = false;
     //Reddit post ID to request older content
     $scope.after = '';
-
     //Pick subreddit
     if ($routeParams.subreddit) {
         $scope.source = 'r/' + $routeParams.subreddit;
     }else {
-        $scope.source = '';
+        $scope.source = 'r/pics';
     }
     //Keep track of column heights for balance
     var heights = [0, 0, 0];
@@ -41,7 +41,11 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
                     data.urlpre = urlpre;
                     data.urllarge = urllarge;
                     data.comments = 'http://reddit.com' + data.permalink;
+                    if (data.title.length > 100) {
+                        data.title = data.title.substring(0, 100) + "...";
+                    }
                     $scope.pics[column].push(data);
+                    $scope.mobilePics.push(data);
                 });
             }
             $scope.busy = false;
@@ -51,60 +55,64 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
         })
     };
     $scope.loadMore();
+}); 
 
-
-
-    function getUrl(data, callback) {
-        var flickerApiKey = "df1ff13d7f696d907c3296a5ff656536"; //Please apply for your own key through Flickr :)
-        var imgurClientId = "6579e7f1ba57ad6" //Likewise ^ 
-        //Regex for ID extraction
-        var imgmatch = /imgur.*\/(.*).jpg$/.exec(data.url);
-        //imgur albums
-        var imamatch = /imgur.*a\/(.*)$/.exec(data.url);
-        //livememe
-        var lmematch = /livememe.com\/(.*)/.exec(data.url);
-        //flickr
-        var flimatch = /flickr.*\/([0-9]{10})\//.exec(data.url);
-        if (imgmatch) {
-            callback('http://i.imgur.com/' + imgmatch[1] + 'l.jpg', data.url, data);
-        }else if (lmematch) {
-            var url = 'http://i.lvme.me/' + lmematch[1] + '.jpg';
-            callback(url, url, data);
-        }else if (flimatch) {
-            //Perform asynchronous request to obtain Flickr src image URL
-            $.ajax({
-                type: 'get',
-                url: "http://www.flickr.com/services/rest/",
-                data: {
-                    method: 'flickr.photos.getSizes', 
-                    format: 'json',
-                    api_key: flickerApiKey,
-                    photo_id: flimatch[1], 
-                },
-                dataType: 'jsonp',
-                jsonp: 'jsoncallback',
-                success: function(response) {
-                    if (response.sizes) {
-                        callback(response.sizes.size[5].source, response.sizes.size[8].source, data);
-                    }
-                }
-            });
-        }else if (imamatch) {
-            $.ajax({
-                type: 'get',
-                url: "https://api.imgur.com/3/album/" + imamatch[1],
-                headers: {
-                    "Authorization": 'Client-ID ' + imgurClientId
-                },
-                success: function(response) {
-                    var link = response.data.images[0].link;
-                    var imgmatch = /imgur.*\/(.*).jpg$/.exec(link);
+function getUrl(data, callback) {
+    var flickerApiKey = "df1ff13d7f696d907c3296a5ff656536"; //Please apply for your own key through Flickr :)
+    var imgurClientId = "6579e7f1ba57ad6" //Likewise ^ 
+    //Regex for ID extraction
+    var imgmatch1 = /imgur.*\/(.*).(jpg|png)$/.exec(data.url);
+    //imgur albums
+    var imgmatch2 = /imgur.*a\/(.*)$/.exec(data.url);
+    // Imgur with no filetype extension
+    var imgmatch3 = /imgur.*\/(.*)$/.exec(data.url);
+    //livememe
+    var lmematch = /livememe.com\/(.*)/.exec(data.url);
+    //flickr
+    var flimatch = /flickr.*\/([0-9]{10})\//.exec(data.url);
+    if (imgmatch2) {
+        $.ajax({
+            type: 'get',
+            url: "https://api.imgur.com/3/album/" + imgmatch2[1],
+            headers: {
+                "Authorization": 'Client-ID ' + imgurClientId
+            },
+            success: function(response) {
+                var link = response.data.images[0].link;
+                var imgmatch = /imgur.*\/(.*).jpg$/.exec(link);
+                if (imgmatch) {
                     callback('http://i.imgur.com/' + imgmatch[1] + 'l.jpg', link, data);
                 }
-            });
-        }else {
-            console.log("");
-            //console.log(data.url);
-        }
+            }
+        });
+    }else if (imgmatch1) {
+        callback('http://i.imgur.com/' + imgmatch1[1] + 'l.jpg', data.url, data);
+    }else if (imgmatch3) {
+        callback('http://i.imgur.com/' + imgmatch3[1] + 'l.jpg', 'http://i.imgur.com/' + imgmatch3[1] + '.jpg', data);
+    }else if (lmematch) {
+        var url = 'http://i.lvme.me/' + lmematch[1] + '.jpg';
+        callback(url, url, data);
+    }else if (flimatch) {
+        //Perform asynchronous request to obtain Flickr src image URL
+        $.ajax({
+            type: 'get',
+            url: "http://www.flickr.com/services/rest/",
+            data: {
+                method: 'flickr.photos.getSizes', 
+                format: 'json',
+                api_key: flickerApiKey,
+                photo_id: flimatch[1], 
+            },
+            dataType: 'jsonp',
+            jsonp: 'jsoncallback',
+            success: function(response) {
+                if (response.sizes) {
+                    callback(response.sizes.size[5].source, response.sizes.size[8].source, data);
+                }
+            }
+        });
+    }else {
+        //console.log("did not include " + data.url);
+        console.log("");
     }
-}); 
+}

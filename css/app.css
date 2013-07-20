@@ -56,9 +56,11 @@ body {
 p .brand {
     padding: 0px;
 }
-.comments {
+
+.caption p a{
     color: black;
 }
+
 .animate-enter {
 	-webkit-transition: 3s linear all; /* Chrome */
 	transition: 1s linear all;

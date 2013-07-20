@@ -7,10 +7,10 @@ app.directive('hovershow', function() {
             restrict: 'A',
             link : function(scope, element, attrs) {
                 element.bind('mouseenter', function() {
-                    element.children('div').fadeIn();
+                    element.children('div').fadeIn(200);
                 });
                 element.bind('mouseleave', function() {
-                    element.children('div').fadeOut();
+                    element.children('div').fadeOut(50);
                 });
             }
         };
