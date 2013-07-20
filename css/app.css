@@ -13,9 +13,12 @@ body {
     right: 0;
     width: auto;
     margin: 0 auto;
-    max-width: 80%;
+    max-width: 90%;
     padding: 10px;
     background-color: black;
+}
+#subreddit {
+    width: 22%;
 }
 .info {
     top: 0px;

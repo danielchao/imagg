@@ -12,10 +12,9 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
 
     //Pick subreddit
     if ($routeParams.subreddit) {
-        $scope.source = $routeParams.subreddit;
+        $scope.source = 'r/' + $routeParams.subreddit;
     }else {
-        //Default subreddit is r/pics
-        $scope.source = 'pics';
+        $scope.source = '';
     }
     //Keep track of column heights for balance
     var heights = [0, 0, 0];
@@ -23,12 +22,13 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
     $scope.loadMore = function() {
         if ($scope.busy) return;
         $scope.busy = true;
-        var url =  "http://api.reddit.com/r/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
+        //var url =  "http://api.reddit.com/r/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
+        var url =  "http://api.reddit.com/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
         $http.jsonp(url).success(function(data) {
             $scope.after = data.data.after;
             var items = data.data.children;
             for (var i = 0; i < items.length; i++) {
-                //Make async request to get URL; async required for sites like Flickr
+                //Make async request to get img src URL
                 getUrl(items[i].data, function(urlpre, urllarge, data) {
                     var column =  heights.indexOf(Math.min.apply(Math, heights));
                     //Temporary solution for height imbalance issue
@@ -39,7 +39,6 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
                         heights[column] += this.height/this.width;
                     }
                     data.urlpre = urlpre;
-                    console.log(urllarge);
                     data.urllarge = urllarge;
                     data.comments = 'http://reddit.com' + data.permalink;
                     $scope.pics[column].push(data);
@@ -57,14 +56,20 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
 
     function getUrl(data, callback) {
         var flickerApiKey = "df1ff13d7f696d907c3296a5ff656536"; //Please apply for your own key through Flickr :)
+        var imgurClientId = "6579e7f1ba57ad6" //Likewise ^ 
         //Regex for ID extraction
-        var imgmatch = /img.*\/(.*).jpg$/.exec(data.url);
+        var imgmatch = /imgur.*\/(.*).jpg$/.exec(data.url);
+        //imgur albums
+        var imamatch = /imgur.*a\/(.*)$/.exec(data.url);
+        //livememe
         var lmematch = /livememe.com\/(.*)/.exec(data.url);
+        //flickr
         var flimatch = /flickr.*\/([0-9]{10})\//.exec(data.url);
         if (imgmatch) {
             callback('http://i.imgur.com/' + imgmatch[1] + 'l.jpg', data.url, data);
         }else if (lmematch) {
-            callback('http://i.lvme.me/' + lmematch[1] + '.jpg', data.url, data);
+            var url = 'http://i.lvme.me/' + lmematch[1] + '.jpg';
+            callback(url, url, data);
         }else if (flimatch) {
             //Perform asynchronous request to obtain Flickr src image URL
             $.ajax({
@@ -84,6 +89,22 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
                     }
                 }
             });
+        }else if (imamatch) {
+            $.ajax({
+                type: 'get',
+                url: "https://api.imgur.com/3/album/" + imamatch[1],
+                headers: {
+                    "Authorization": 'Client-ID ' + imgurClientId
+                },
+                success: function(response) {
+                    var link = response.data.images[0].link;
+                    var imgmatch = /imgur.*\/(.*).jpg$/.exec(link);
+                    callback('http://i.imgur.com/' + imgmatch[1] + 'l.jpg', link, data);
+                }
+            });
+        }else {
+            console.log("");
+            //console.log(data.url);
         }
     }
 }); 

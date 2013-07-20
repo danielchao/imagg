@@ -1,43 +1,32 @@
-<div ng-controller="redditCtrl">
-    <div class='navbar'>
-        <div class="navbar-inner">
-            <p class="brand" id='title'>Imagg</p>
-            <form class="navbar-form">
-                <input type="text" ng-model="subreddit" placeholder="Input subreddit name"/>
-                <a href="#/{{subreddit}}"><button class="btn">Choose</button></a>
-            </form>
+<img id='preview' class="modal hide" data-keyboard='false'>
+<div class="container">
+    <div class="row">
+        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
+            <span class="img-container" ng-repeat="red in pics[0]" ng-animate="'animate'" hovershow>
+                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
+                <div class="info">
+                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
+                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
+                </div>
+            </span>
         </div>
-    </div>
-    <img id='preview' class="modal hide" data-keyboard='false'>
-    <div class="container">
-        <div class="row">
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-                <span class="img-container" ng-repeat="red in pics[0]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
-                    <div class="info">
-                        <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                        <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
-                    </div>
-                </span>
-            </div>
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-                <span class="img-container" ng-repeat="red in pics[1]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
-                    <div class="info">
-                        <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                        <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
-                    </div>
-                </span>
-            </div>
-            <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-                <span class="img-container" ng-repeat="red in pics[2]" ng-animate="'animate'" hovershow>
-                    <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
-                    <div class="info">
-                        <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                        <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
-                    </div>
-                </span>
-            </div>
-        </div> 
+        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
+            <span class="img-container" ng-repeat="red in pics[1]" ng-animate="'animate'" hovershow>
+                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
+                <div class="info">
+                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
+                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
+                </div>
+            </span>
+        </div>
+        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
+            <span class="img-container" ng-repeat="red in pics[2]" ng-animate="'animate'" hovershow>
+                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
+                <div class="info">
+                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
+                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
+                </div>
+            </span>
+        </div>
     </div> 
 </div> 

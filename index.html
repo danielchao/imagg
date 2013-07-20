@@ -15,11 +15,23 @@
         <script src="js/filters.js"></script>
         <script src="js/directives.js"></script>
         <script src="lib/ng-infinite-scroll.js"></script>
-          <!-- In production use:
-          <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-          -->
+        <script src="lib/masonry.pkgd.min.js"></script>
+        <!-- In production use:
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        -->
     </head>
     <body>
-        <div ng-view></div>
+        <div ng-controller="redditCtrl">
+            <div class='navbar'>
+                <div class="navbar-inner">
+                    <p class="brand" id='title'>Imagg</p>
+                    <form class="navbar-form">
+                        <input id="subreddit" type="text" ng-model="subreddit" placeholder="Input subreddit name(s) e.g. pics+gaming"/>
+                        <a href="#/{{subreddit}}"><button class="btn">Choose<i class='icon-filter'></i></button></a>
+                    </form>
+                </div>
+            </div>
+            <div ng-view></div>
+        </div> 
     </body>
 </html>
