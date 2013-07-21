@@ -17,9 +17,6 @@ body {
     padding: 10px;
     background-color: black;
 }
-#subreddit {
-    width: 22%;
-}
 .info {
     top: 0px;
     left: 0px;
@@ -41,6 +38,9 @@ body {
 .bold {
     font-weight: bold;
 }
+#subreddit {
+    width: 60%;
+}
 .img-container {
     position: relative; 
     background-color: white;
@@ -50,17 +50,45 @@ body {
     box-shadow: 3px 3px 3px 3px #888888;
     text-align: center
 } 
+.icon-plus-sign {
+    float: right;
+    color: white;
+    
+}
 .img-container img{
     cursor: pointer;
+}
+.dropdown-menu li{
+    cursor: pointer;
+}
+.icon-plus-sign {
+    cursor: pointer;
+    display: none;
 }
 p .brand {
     padding: 0px;
 }
-
 .caption p a{
     color: black;
 }
-
+.navbar-form {
+    float: left;
+    width: 40%;
+}
+#g-connect {
+    margin-top 15px;
+}
+#portrait {
+    float:right;
+    border: 1px solid #EDEDED;
+    border-radius: 2px;
+    width: 38px;
+    height: 38px;
+    display: none;
+}
+#menu {
+    display: none;
+}
 .animate-enter {
 	-webkit-transition: 3s linear all; /* Chrome */
 	transition: 1s linear all;

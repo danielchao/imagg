@@ -2,7 +2,7 @@
 
 
 // Declare app level module which depends on filters, and services
-var app = angular.module('Imagg', ['infinite-scroll']).
+var app = angular.module('Imagg', ['infinite-scroll', 'ngResource']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/', {templateUrl: 'partials/images.html',   controller: 'redditCtrl'}).

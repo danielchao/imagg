@@ -29,4 +29,28 @@ app.directive('clickpreview', function() {
         }
     };
 });
-
+app.directive('logout', function() {
+    return {
+        restrict: 'A',
+        link : function(scope, element, attrs) {
+            element.bind('click', function() {
+                helper.disconnect();
+            });
+        }
+    };
+});
+app.directive('favorite', function() {
+    return {
+        restrict: 'A',
+        link : function(scope, element, attrs) {
+            element.bind('click', function() {
+                var par = element.parent().serializeArray();
+                var image = scope.pics[par[1].value-1][par[0].value];
+                $.post('process.php', image, function(data) {
+                    console.log(data);
+                }, 'json');
+                //element.parent().submit();
+            });
+        }
+    };
+});

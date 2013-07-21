@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" >
         <title>Imagg</title>
-        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
         <link href="css/app.css" rel="stylesheet"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
@@ -17,14 +18,70 @@
         <script src="js/directives.js"></script>
         <script src="lib/ng-infinite-scroll.js"></script>
         <script src="js/redirection_mobile.js"></script>
+        <script type="text/javascript">
+        (function() {
+             var po = document.createElement('script');
+             po.type = 'text/javascript'; po.async = true;
+             po.src = 'https://plus.google.com/js/client:plusone.js';
+             var s = document.getElementsByTagName('script')[0];
+             s.parentNode.insertBefore(po, s);
+         })();
+        </script>
+        <script src="lib/google_api.js"></script>
 
 
-        <!-- In production use:
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-        -->
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+-->
     </head>
     <body>
         <div ng-controller="redditCtrl">
+            <div class='navbar'>
+                <div class="navbar-inner">
+                    <a href="#"><p class="brand" id='title'>Imagg</p></a>
+                    <ul class="nav">
+                      <li><a href="#/about">About</a></li>
+                    </ul>
+                    <form class="navbar-form">
+                        <input id="subreddit" type="text" ng-model="subreddit" placeholder="Input subreddit name(s) e.g. pics+gaming"/>
+                        <a href="#/r/{{subreddit}}"><button class="btn"><i class='icon-th'></i>Choose</button></a>
+                    </form>
+                    <div id="gConnect" class="pull-right">
+                        <button class="g-signin"
+                            data-scope="https://www.googleapis.com/auth/plus.login"
+                            data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                            data-clientId="633015703759.apps.googleusercontent.com"
+                            data-callback="onSignInCallback"
+                            data-theme="dark"
+                            data-cookiepolicy="single_host_origin">
+                        </button>
+                    </div>
+                    <div id="menu" class="btn-group pull-right">
+                      <a class="btn dropdown-toggle" data-toggle="dropdown" ><i class="icon-list"></i></a>
+                      <ul class="dropdown-menu">
+                        <li><a>View Favorites</a></li>
+                        <li><a logout>Logout</a></li>
+                      </ul>
+                    </div>
+                    <img id="portrait"/>
+                </div>
+            </div>
+        <!--<div id="authOps" style="display:none">-->
+            <!--<h2>User is now signed in to the app using Google+</h2>-->
+            <!--<p>If the user chooses to disconnect, the app must delete all stored-->
+            <!--information retrieved from Google for the given user.</p>-->
+            <!--<button id="disconnect" >Disconnect your Google account from this app</button>-->
+
+            <!--<h2>User's profile information</h2>-->
+            <!--<div id="profile"></div>-->
+
+            <!--<h2>User's friends that are visible to this app</h2>-->
+            <!--<div id="visiblePeople"></div>-->
+
+            <!--<h2>Authentication Logs</h2>-->
+            <!--<pre id="authResult"></pre>-->
+          <!--</div>-->
             <div ng-view></div>
         </div> 
     </body>
