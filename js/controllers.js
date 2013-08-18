@@ -4,8 +4,7 @@
 
 app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
     //Container for all displayed images, each array representing one column 
-    $scope.pics = [[], [], []];
-    $scope.mobilePics = [];
+    $scope.pics = [];
     //Prevent mutliple loads from triggering at once
     $scope.busy = false;
     //Reddit post ID to request older content
@@ -16,36 +15,25 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
     }else {
         $scope.source = 'r/pics';
     }
-    //Keep track of column heights for balance
-    var heights = [0, 0, 0];
 
     $scope.loadMore = function() {
         if ($scope.busy) return;
         $scope.busy = true;
         //var url =  "http://api.reddit.com/r/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
-        var url =  "http://api.reddit.com/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
+        var url =  "http://api.reddit.com/" + $scope.source + "?after=" + $scope.after + "&limit=10&jsonp=JSON_CALLBACK";
         $http.jsonp(url).success(function(data) {
             $scope.after = data.data.after;
             var items = data.data.children;
             for (var i = 0; i < items.length; i++) {
                 //Make async request to get img src URL
                 getUrl(items[i].data, function(urlpre, urllarge, data) {
-                    var column =  heights.indexOf(Math.min.apply(Math, heights));
-                    //Temporary solution for height imbalance issue
-                    //Probably hinders performance
-                    var img = new Image();
-                    img.src = urlpre;
-                    img.onload = function() {
-                        heights[column] += this.height/this.width;
-                    }
                     data.urlpre = urlpre;
                     data.urllarge = urllarge;
                     data.comments = 'http://reddit.com' + data.permalink;
                     if (data.title.length > 100) {
                         data.title = data.title.substring(0, 100) + "...";
                     }
-                    $scope.pics[column].push(data);
-                    $scope.mobilePics.push(data);
+                    $scope.pics.push(data);
                 });
             }
             $scope.busy = false;

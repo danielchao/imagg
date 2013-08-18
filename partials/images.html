@@ -1,33 +1,22 @@
 <div ng-include src="'partials/nav.html'"></div>
 <img id='preview' class="modal hide" data-keyboard='false'>
 <div class="container">
-    <div class="row">
-        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-            <span class="img-container" ng-repeat="red in pics[0]" ng-animate="'animate'" hovershow>
-                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
+    <div class="row" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
+        <div id="column-1" class="span4">
+        </div>
+        <div id="column-2" class="span4">
+        </div>
+        <div id="column-3" class="span4">
+        </div>
+        <div ng-repeat="pic in pics">
+            <span class="img-container" hovershow>
+                <img ng-src="{{pic.urlpre}}" alt="{{pic.urllarge}}" clickpreview></img>
                 <div class="info">
-                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
+                    <p><a class="bold" href="{{pic.url}}">{{pic.title}}</a></p>
+                    <p><a href="{{pic.comments}}">Comments: {{pic.num_comments}}</a></p>
                 </div>
             </span>
         </div>
-        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-            <span class="img-container" ng-repeat="red in pics[1]" ng-animate="'animate'" hovershow>
-                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
-                <div class="info">
-                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
-                </div>
-            </span>
-        </div>
-        <div class="span4" infinite-scroll="loadMore()" infinite-scroll-disabled='busy' infinite-scroll-distance="1">
-            <span class="img-container" ng-repeat="red in pics[2]" ng-animate="'animate'" hovershow>
-                <img ng-src="{{red.urlpre}}" alt="{{red.urllarge}}" clickpreview></img>
-                <div class="info">
-                    <p><a class="bold" href="{{red.url}}">{{red.title}}</a></p>
-                    <p><a href="{{red.comments}}">Comments: {{red.num_comments}}</a></p>
-                </div>
-            </span>
-        </div>
+
     </div> 
 </div> 

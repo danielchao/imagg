@@ -48,7 +48,8 @@ body {
     float: left;
     margin-bottom: 4%;
     box-shadow: 3px 3px 3px 3px #888888;
-    text-align: center
+    text-align: center;
+    display: none;
 } 
 .img-container img{
     cursor: pointer;
@@ -61,11 +62,3 @@ p .brand {
     color: black;
 }
 
-.animate-enter {
-	-webkit-transition: 3s linear all; /* Chrome */
-	transition: 1s linear all;
-	opacity: 0;
-}
-.animate-enter.animate-enter-active {
-	opacity: 1;
-}
