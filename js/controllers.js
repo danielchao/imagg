@@ -20,7 +20,7 @@ app.controller('redditCtrl', function($scope, $http, $routeParams, $location) {
         if ($scope.busy) return;
         $scope.busy = true;
         //var url =  "http://api.reddit.com/r/" + $scope.source + "?after=" + $scope.after + "&limit=25&jsonp=JSON_CALLBACK";
-        var url =  "http://api.reddit.com/" + $scope.source + "?after=" + $scope.after + "&limit=10&jsonp=JSON_CALLBACK";
+        var url =  "http://api.reddit.com/" + $scope.source + "?after=" + $scope.after + "&limit=15&jsonp=JSON_CALLBACK";
         $http.jsonp(url).success(function(data) {
             $scope.after = data.data.after;
             var items = data.data.children;
@@ -95,12 +95,11 @@ function getUrl(data, callback) {
             jsonp: 'jsoncallback',
             success: function(response) {
                 if (response.sizes) {
-                    callback(response.sizes.size[5].source, response.sizes.size[8].source, data);
+                    callback(response.sizes.size[5].source, response.sizes.size[7].source, data);
                 }
             }
         });
     }else {
-        //console.log("did not include " + data.url);
-        console.log("");
+        console.log("omitted " + data.url);
     }
 }
